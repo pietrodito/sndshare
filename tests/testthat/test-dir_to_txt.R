@@ -34,18 +34,19 @@ test_that("error if wrong encoding scheme", {
 
 test_that("encoding has worked", {
 
-  tmp_dir <- testthat::test_path(tempdir())
+  tmp_dir <- glue::glue(".{testthat::test_path(tempdir())}")
   fs::dir_create(tmp_dir)
-  withr::defer(fs::dir_delete(testthat::test_path("./tmp/")))
 
   dir_to_zip <- glue::glue("{tmp_dir}/dir_to_zip")
-  txt_file   <- glue::glue("{tmp_dir}/txt_file.txt")
+  txt_file   <- testthat::test_path("txt_file.txt")
+  withr::defer(fs::file_delete(txt_file))
+
   local_create_files(dir_to_zip, filenames = letters)
 
   dir_to_txt(dir_path = dir_to_zip,
              txt_file_path = txt_file)
 
-  expected_size <- 276L
+  expected_size <- 7020L
   actual_size <- fs::file_size(txt_file) %>% as.integer()
 
   expect_equal(actual_size, expected_size)
