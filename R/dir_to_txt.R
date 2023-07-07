@@ -1,6 +1,7 @@
 dir_to_txt <- function(dir_path,
                        txt_file_path,
-                       encoding_scheme = c("base64", "xxd")) {
+                       encoding_scheme = c("base64", "xxd"),
+                       exclude_dot_R = TRUE) {
 
   check_args(dir_path, txt_file_path, encoding_scheme)
 
@@ -9,7 +10,7 @@ dir_to_txt <- function(dir_path,
   fs::dir_create(tmp_dir)
   withr::defer(fs::dir_delete("./tmp/"))
 
-  silent_zip_dir(tmp_zip_filename, dir_path)
+  silent_zip_dir(tmp_zip_filename, dir_path, exclude_dot_R)
   encode_zip_file(encoding_scheme, tmp_zip_filename, txt_file_path)
 }
 
@@ -40,9 +41,12 @@ is_available_encoding_scheme <- function(encoding_scheme) {
   encoding_scheme %in% available_encoding_schemes
 }
 
-silent_zip_dir <- function(zipfile, dir) {
+silent_zip_dir <- function(zipfile, dir, exclude_dot_R) {
   silent <- TRUE
-  system(glue::glue("zip -r {zipfile} {dir}"),
+  exclude_dot_R_command <- " -x \"*/.R*\""
+  if(! exclude_dot_R) exclude_dot_R_command <- ""
+  shell_command <- glue::glue("zip -r {zipfile} {dir} {exclude_dot_R_command}")
+  system(shell_command,
          intern = silent)
   invisible()
 }
