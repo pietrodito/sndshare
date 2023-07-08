@@ -29,7 +29,6 @@ dir_to_csv <- function(dir_path,
   if(return_zip_output) zip_output else invisible()
 }
 
-
 check_args <- function(dir_path, csv_file_path) {
   assertthat::assert_that(assertthat::is.readable(fs::path(dir_path)))
 
