@@ -79,7 +79,7 @@ test_that("xxd encoding works", {
   dir_to_zip <- glue::glue("{tmp_dir}/dir_to_zip")
   sub_dir_to_zip <- paste0(dir_to_zip, "/sub_dir")
   fs::dir_create(sub_dir_to_zip)
-  txt_file   <- testthat::test_path("txt_file.txt")
+  txt_file  <- testthat::test_path("txt_file.txt")
   withr::defer(fs::file_delete(txt_file))
 
   local_create_files(dir_to_zip, filenames = letters)

@@ -1,3 +1,15 @@
+#' Zip and encode a directory to csv file
+#'
+#' @param dir_path
+#' @param txt_file_path
+#' @param encoding_scheme
+#' @param exclude_dot_R
+#' @param return_zip_output
+#'
+#' @return
+#' @export
+#'
+#' @examples
 dir_to_txt <- function(dir_path,
                        txt_file_path,
                        encoding_scheme = c("base64", "xxd"),
