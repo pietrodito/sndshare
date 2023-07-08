@@ -6,7 +6,6 @@
 #' @param return_zip_output TRUE to return vector with zip-file names
 #'
 #' @return nothing or vector with zip-file names
-#' @export
 #'
 #' @examples
 dir_to_csv <- function(dir_path,
@@ -21,7 +20,9 @@ dir_to_csv <- function(dir_path,
   fs::dir_create(tmp_dir)
   withr::defer(fs::dir_delete("./tmp/"))
 
+  cat("Zipping files...\n")
   zip_output <- silent_zip_dir(tmp_zip_filename, dir_path, exclude_dot_R)
+  cat("Encoding zip file...\n")
   encode_zip_file(tmp_zip_filename, csv_file_path)
   insert_header_line_to_csv(csv_file_path)
 
@@ -36,7 +37,6 @@ check_args <- function(dir_path, csv_file_path) {
   assertthat::assert_that(assertthat::is.writeable(dir_name))
 
 }
-
 
 silent_zip_dir <- function(zipfile, dir, exclude_dot_R, verbose = FALSE) {
 
