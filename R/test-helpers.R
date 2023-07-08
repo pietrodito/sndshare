@@ -25,6 +25,5 @@ local_create_files <- function(dir_path,
 
   fs::file_touch(file_paths)
   purrr::walk2(contents, file_paths, ~ write(.x, .y))
-
 }
 

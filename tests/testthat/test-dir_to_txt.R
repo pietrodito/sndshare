@@ -1,5 +1,5 @@
 zero_perm_dir <- test_path("tmp_zero_perm_dir")
-readable_dir  <- test_path("tmp_readable_dir" )
+readable_dir  <- test_path("tmp_readable_dir")
 writeable_dir <- test_path("tmp_writeable_dir")
 
 local_create_dir_with_perm(zero_perm_dir, "000")
@@ -10,66 +10,97 @@ zero_perm_file <- paste0(zero_perm_dir, "/file.txt")
 writeable_file <- paste0(writeable_dir, "/file.txt")
 
 test_that("error if not readable path", {
-
-  expect_error(dir_to_txt(dir_path = zero_perm_dir,
-                          txt_file_path = zero_perm_file,
-                          encoding_scheme = "xxd"),
-               "not readable")
+  expect_error(
+    dir_to_txt(
+      dir_path = zero_perm_dir,
+      txt_file_path = zero_perm_file,
+      encoding_scheme = "xxd"
+    ),
+    "not readable"
+  )
 })
 
 test_that("error if not writeable text file", {
-
-  expect_error(dir_to_txt(dir_path = readable_dir,
-                          txt_file_path = zero_perm_file,
-                          encoding_scheme = "xxd"),
-               "not writeable")
+  expect_error(
+    dir_to_txt(
+      dir_path = readable_dir,
+      txt_file_path = zero_perm_file,
+      encoding_scheme = "xxd"
+    ),
+    "not writeable"
+  )
 })
 
 test_that("error if wrong encoding scheme", {
-  expect_error(dir_to_txt(dir_path = readable_dir,
-                          txt_file_path = writeable_file,
-                          encoding_scheme = "wrong scheme"),
-               "scheme")
+  expect_error(
+    dir_to_txt(
+      dir_path = readable_dir,
+      txt_file_path = writeable_file,
+      encoding_scheme = "wrong scheme"
+    ),
+    "scheme"
+  )
 })
 
 test_that("base64 encoding works", {
-
   tmp_dir <- glue::glue("./{testthat::test_path(tempdir())}")
-  fs::dir_create(tmp_dir)
 
   dir_to_zip <- glue::glue("{tmp_dir}/dir_to_zip")
+  sub_dir_to_zip <- paste0(dir_to_zip, "/sub_dir")
+  fs::dir_create(sub_dir_to_zip)
+
   txt_file   <- testthat::test_path("txt_file.txt")
   withr::defer(fs::file_delete(txt_file))
 
   local_create_files(dir_to_zip, filenames = letters)
+  local_create_files(dir_to_zip, filenames = ".R_do_not_include")
+  local_create_files(sub_dir_to_zip, filenames = ".R_do_not_include")
 
-  dir_to_txt(dir_path = dir_to_zip,
-             txt_file_path = txt_file)
+  zip_output <- dir_to_txt(
+    dir_path = dir_to_zip,
+    txt_file_path = txt_file,
+    return_zip_output = TRUE
+  )
 
-  expected_size <- 7093L
+  has_zipped_do_not_include_files <-
+    any(stringr::str_detect(zip_output, "_do_not_include"))
+
+  expect_false(has_zipped_do_not_include_files)
+
+  expected_size <- 7360L
   actual_size <- fs::file_size(txt_file) %>% as.integer()
 
   expect_equal(actual_size, expected_size)
 })
 
 test_that("xxd encoding works", {
-
   tmp_dir <- glue::glue("./{testthat::test_path(tempdir())}")
-  fs::dir_create(tmp_dir)
 
   dir_to_zip <- glue::glue("{tmp_dir}/dir_to_zip")
+  sub_dir_to_zip <- paste0(dir_to_zip, "/sub_dir")
+  fs::dir_create(sub_dir_to_zip)
   txt_file   <- testthat::test_path("txt_file.txt")
   withr::defer(fs::file_delete(txt_file))
 
   local_create_files(dir_to_zip, filenames = letters)
+  local_create_files(dir_to_zip, filenames = ".R_do_include")
+  local_create_files(sub_dir_to_zip, filenames = ".R_do_include")
 
-  dir_to_txt(dir_path = dir_to_zip,
-             txt_file_path = txt_file,
-             encoding_scheme = "xxd")
+  zip_output <- dir_to_txt(
+    dir_path = dir_to_zip,
+    txt_file_path = txt_file,
+    encoding_scheme = "xxd",
+    exclude_dot_R = FALSE,
+    return_zip_output = TRUE
+  )
 
-  expected_size <- 21976L
+  has_zipped_do_include_files <-
+    any(stringr::str_detect(zip_output, "_do_include"))
+
+  expect_true(has_zipped_do_include_files)
+
+  expected_size <- 24843L
   actual_size <- fs::file_size(txt_file) %>% as.integer()
 
   expect_equal(actual_size, expected_size)
 })
-
