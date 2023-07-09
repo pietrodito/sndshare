@@ -1,9 +1,9 @@
 #' Import directory form base64-encoded Oracle table
 #'
-#' @param TABLE_NAME oracle table
-#' @param dest_path destination path
+#' @param TABLE_NAME oracle table name with one base64-encoded column
+#' @param dest_path path of destination directory
 #'
-#' @return
+#' @return nothing
 #' @export
 #'
 #' @examples

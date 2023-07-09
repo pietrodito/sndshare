@@ -1,9 +1,9 @@
 #' Import encoded directory from csv
 #'
-#' @param csv_path
-#' @param dest_path
+#' @param csv_path path of csv file
+#' @param dest_path path of destination directory
 #'
-#' @return
+#' @return nothing
 #' @export
 #'
 #' @examples
