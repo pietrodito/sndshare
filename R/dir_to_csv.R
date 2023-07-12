@@ -24,7 +24,7 @@ dir_to_csv <- function(dir_path,
   zip_output <- silent_zip_dir(tmp_zip_filename, dir_path, exclude_dot_R)
   cat("Encoding zip file...\n")
   encode_zip_file(tmp_zip_filename, csv_file_path)
-  insert_header_line_to_csv(csv_file_path)
+  # insert_header_line_to_csv(csv_file_path)
 
   if(return_zip_output) zip_output else invisible()
 }
@@ -50,12 +50,6 @@ silent_zip_dir <- function(zipfile, dir, exclude_dot_R, verbose = FALSE) {
 
 encode_zip_file <- function(tmp_zip_filename, csv_file_path) {
     shell_command <-
-      glue::glue("base64 -w 0 {tmp_zip_filename} > {csv_file_path}")
+      glue::glue("base64 -w 76 {tmp_zip_filename} > {csv_file_path}")
     system(shell_command, intern = TRUE)
   }
-
-insert_header_line_to_csv <- function(csv_file_path) {
- shell_command <-
-   glue::glue("sed -i '1 s/^/base64 encoding\\n/' {csv_file_path}")
- system(shell_command, intern = TRUE)
-}

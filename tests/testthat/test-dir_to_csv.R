@@ -54,7 +54,7 @@ test_that("do not incldue .R* files works", {
 
   expect_false(has_zipped_do_not_include_files)
 
-  expected_size <- 7376L
+  expected_size <- 7360L
   actual_size <- fs::file_size(csv_file) %>% as.integer()
 
   expect_equal(actual_size, expected_size)
@@ -85,7 +85,7 @@ test_that("inclue .R* files works", {
 
   expect_true(has_zipped_do_include_files)
 
-  expected_size <- 8016L
+  expected_size <- 8000L
   actual_size <- fs::file_size(csv_file) %>% as.integer()
 
   expect_equal(actual_size, expected_size)

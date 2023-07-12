@@ -9,16 +9,10 @@
 #' @examples
 import_from_csv <- function(csv_path, dest_path = ".") {
 
-  csv_without_header_path <- basename(tempfile())
-  withr::defer(fs::file_delete(csv_without_header_path))
-
   zip_tmp_path <- glue::glue("{dest_path}/tmp_decoded_file.zip")
   withr::defer(fs::file_delete(zip_tmp_path))
 
-
-  remove_csv_header(csv_path, csv_without_header_path)
-
-  decode_base64_csv_file(csv_without_header_path, zip_tmp_path)
+  decode_base64_csv_file(csv_path, zip_tmp_path)
 
   unzip_decoded_file(zip_tmp_path, dest_path)
   cat("Directory is ready in ", normalizePath(dest_path), "\n")

@@ -27,7 +27,7 @@ oracle_2_csv_tmp_file <- function(TABLE_NAME, csv_tmp_path) {
    %>% DBI::dbConnect(dbname  = "IPIAMPR2.WORLD")
    %>% dplyr::tbl(TABLE_NAME)
    %>% dplyr::collect()
-   %>% readr::write_csv(csv_tmp_path)
+   %>% readr::write_csv(csv_tmp_path, col_names = FALSE)
    %>% invisible()
  )
 }
