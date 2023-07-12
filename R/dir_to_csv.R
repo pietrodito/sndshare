@@ -50,7 +50,7 @@ silent_zip_dir <- function(zipfile, dir, exclude_dot_R, verbose = FALSE) {
 
 encode_zip_file <- function(tmp_zip_filename, csv_file_path) {
     shell_command <-
-      glue::glue("base64 {tmp_zip_filename} > {csv_file_path}")
+      glue::glue("base64 -w 0 {tmp_zip_filename} > {csv_file_path}")
     system(shell_command, intern = TRUE)
   }
 

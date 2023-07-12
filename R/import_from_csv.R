@@ -41,5 +41,3 @@ unzip_decoded_file <- function(zip_tmp_path, dest_path) {
   system(shell_command, intern = TRUE)
   invisible()
 }
-
-import_from_csv("~/sasdata1/download/sndshare.csv", "~/sasdata1/sasuser/tmp/")
