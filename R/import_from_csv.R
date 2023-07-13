@@ -7,15 +7,30 @@
 #' @export
 #'
 #' @examples
-import_from_csv <- function(csv_path, dest_path = ".") {
+import_from_csv <- function(csv_path,
+                            dest_path = ".",
+                            project_name = NULL,
+                            open_project = TRUE ) {
 
   zip_tmp_path <- glue::glue("{dest_path}/tmp_decoded_file.zip")
   withr::defer(fs::file_delete(zip_tmp_path))
+  withr::defer(fs::file_delete("./tmp/"))
 
   decode_base64_csv_file(csv_path, zip_tmp_path)
 
+  if(is.null(project_name)){
+    project_name <- stringr::str_remove(basename(csv_path), "\\.csv")
+  }
+  project_path <- paste0(normalizePath(dest_path), "/", project_name)
+
   unzip_decoded_file(zip_tmp_path, dest_path)
-  cat("Directory is ready in ", normalizePath(dest_path), "\n")
+  if(fs::dir_exists(project_path)) {
+    cat("Directory is ready in ", project_path, "\n")
+    fs::file_delete(csv_path)
+    if(open_project) rstudioapi::openProject(project_path)
+  } else {
+    warning("Import has failed!")
+  }
 }
 
 remove_csv_header <- function(csv_path, csv_without_header_path) {
