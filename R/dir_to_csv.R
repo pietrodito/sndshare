@@ -8,6 +8,7 @@
 #' @return nothing or vector with zip-file names
 #'
 #' @examples
+#' dir_to_csv(dir_path, csv_file_path)
 dir_to_csv <- function(dir_path,
                        csv_file_path,
                        exclude_dot_R = TRUE,

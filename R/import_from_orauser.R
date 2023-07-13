@@ -2,24 +2,29 @@
 #'
 #' @param TABLE_NAME oracle table name with one base64-encoded column
 #' @param dest_path path of destination directory
+#' @param open_project logical.
 #'
 #' @return nothing
 #' @export
 #'
 #' @examples
+#'import_from_orauser(PACKAGE_TABLE_NAME)
 import_from_orauser <- function(TABLE_NAME,
                                 dest_path = ".",
-                                remove_table_oracle = TRUE) {
+                                open_project = TRUE) {
+
   library(ROracle, quietly = TRUE)
+
   fs::dir_create(glue::glue(".{tempdir()}"))
   csv_tmp_path <- glue::glue(".{tempfile()}.csv")
+  project_name <- stringr::str_to_lower(TABLE_NAME)
+  project_path <- paste0(dest_path, "/", project_name)
+  withr::defer(fs::dir_delete("./tmp/"))
 
   oracle <- oracle_connection()
-  project_name <- stringr::str_to_lower(TABLE_NAME)
-
   oracle_2_csv_tmp_file(TABLE_NAME, csv_tmp_path, oracle)
 
-  import_has_failed <- F
+  import_success <- TRUE
   tryCatch(
     import_from_csv(
       csv_tmp_path,
@@ -28,23 +33,21 @@ import_from_orauser <- function(TABLE_NAME,
       open_project = FALSE
     ),
     warning = function(w)
-      import_has_failed <<- T
+      import_success <<- FALSE
   )
-  if (!import_has_failed) {
-    if(remove_table_oracle) {
-      remove_oracle_table(TABLE_NAME, oracle)
+
+  if (import_success) {
+    DBI::dbRemoveTable(oracle, TABLE_NAME)
+    message("The table ORAUSER.", TABLE_NAME, " has been deleted.")
+    if (open_project) {
+      rstudioapi::openProject(project_path)
     }
-    project_path <- paste0(dest_path, "/", project_name)
-    rstudioapi::openProject(project_path)
   }
 }
 
 oracle_connection <- function() {
-  (
-    "Oracle"
-    %>% DBI::dbDriver()
-    %>% DBI::dbConnect(dbname  = "IPIAMPR2.WORLD")
-  )
+  DBI::dbConnect(DBI::dbDriver("Oracle"),
+                 dbname  = "IPIAMPR2.WORLD")
 }
 
 oracle_2_csv_tmp_file <- function(TABLE_NAME, csv_tmp_path, oracle) {
@@ -56,8 +59,4 @@ oracle_2_csv_tmp_file <- function(TABLE_NAME, csv_tmp_path, oracle) {
     %>% readr::write_csv(csv_tmp_path, col_names = FALSE)
     %>% invisible()
   )
-}
-
-remove_oracle_table <- function(TABLE_NAME, oracle) {
-  DBI::dbRemoveTable(oracle, TABLE_NAME)
 }

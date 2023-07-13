@@ -2,10 +2,11 @@
 #'
 #' @param dir_path
 #'
-#' @return
+#' @return NULL
 #' @export
 #'
 #' @examples
+#' export()
 export <- function(dir_path = ".") {
   assertthat::is.dir(dir_path)
 

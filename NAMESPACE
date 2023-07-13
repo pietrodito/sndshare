@@ -2,6 +2,6 @@
 
 export("%>%")
 export(export)
-export(import_from_orauser)
 export(import_from_csv)
+export(import_from_orauser)
 importFrom(magrittr,"%>%")

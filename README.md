@@ -1,4 +1,4 @@
-# SNDSHARE
+# sndshare
 
 + Package R à installer sur le serveur RStudio du SNDS.
 + Permet de partager simplement des projets SNDS menés sous RStudio.
