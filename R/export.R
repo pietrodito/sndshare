@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' export()
-export <- function(dir_path = ".") {
+export <- function(dir_path = ".", verbose = FALSE) {
   assertthat::is.dir(dir_path)
 
   dwnld_dir <- "~/sasdata1/download/"
@@ -25,9 +25,13 @@ export <- function(dir_path = ".") {
   withr::defer(setwd(pwd))
 
   csv_file <- glue::glue("{dir_name}.csv")
-  dir_to_csv(dir_name, csv_file)
+  dir_to_csv(dir_name, csv_file, verbose = verbose)
 
   cat("SUCCESS! ")
   cat(paste0(csv_file, " is now ready in ", dwnld_dir, "\n"))
+
+  move_to_download_dir <- function(file) fs::file_move(file, dwnld_dir)
+
   move_to_download_dir(csv_file)
 }
+

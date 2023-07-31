@@ -12,7 +12,8 @@
 dir_to_csv <- function(dir_path,
                        csv_file_path,
                        exclude_dot_R = TRUE,
-                       return_zip_output = FALSE) {
+                       return_zip_output = FALSE,
+                       verbose = FALSE) {
 
   check_args(dir_path, csv_file_path)
 
@@ -22,10 +23,10 @@ dir_to_csv <- function(dir_path,
   withr::defer(fs::dir_delete("./tmp/"))
 
   cat("Zipping files...\n")
-  zip_output <- silent_zip_dir(tmp_zip_filename, dir_path, exclude_dot_R)
+    zip_output <- silent_zip_dir(tmp_zip_filename, dir_path,
+                                 exclude_dot_R, verbose = verbose)
   cat("Encoding zip file...\n")
   encode_zip_file(tmp_zip_filename, csv_file_path)
-  # insert_header_line_to_csv(csv_file_path)
 
   if(return_zip_output) zip_output else invisible()
 }
@@ -41,11 +42,18 @@ check_args <- function(dir_path, csv_file_path) {
 silent_zip_dir <- function(zipfile, dir, exclude_dot_R, verbose = FALSE) {
 
   silent <- ! verbose
-  exclude_dot_R_command <- " -x \"*/.R*\" \".R*\""
 
-  if(! exclude_dot_R) exclude_dot_R_command <- ""
 
-  shell_command <- glue::glue("zip -r {zipfile} {dir} {exclude_dot_R_command}")
+  .exclude_data <- ' */data_NOT_EXPORTED/* '
+  .exclude_dot_R <- ' "*/.R*" ".R*" '
+  .exclude_dot_temp <- ' */.temp/* '
+
+  if(! exclude_dot_R) .exclude_dot_R <- ""
+
+  exclude_command <-
+    glue::glue(" -x {.exclude_data} {.exclude_dot_R} {.exclude_dot_temp}")
+
+  shell_command <- glue::glue("zip -r {zipfile} {dir} {exclude_command}")
   system(shell_command, intern = silent)
 }
 
