@@ -16,6 +16,12 @@
 + Pour un projet volumineux, on peut importer le CSV vers la librairie ORAUSER depuis SAS pour en faire une table ORACLE.
 + Enfin on appelle la fonction d'import du package.
 
+## Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
++ Dans le répertoire linux_utils de ce dépot
+### `extract_files_from_csv`
++ Décode et décompresse immédiatement le fichier `.csv`
+### `update_csv_from_local`
++ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
 # Installation rapide
 
 + Exécutez le code suivant sur la console :

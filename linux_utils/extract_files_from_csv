@@ -1,0 +1,14 @@
+filename=$1
+
+filename_without_path=`echo "${filename##*/}"`
+filename_without_extension=`echo "${filename_without_path%.*}"`
+project_directory=filename_without_extension
+
+zip_dest=`echo "${filename_without_extension}.zip"`
+
+base64 $1 -d > $zip_dest
+
+unzip -o $zip_dest
+rm $zip_dest
+
+mv $1 "$filename_without_extension/zzz_$1"

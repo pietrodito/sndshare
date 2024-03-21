@@ -1,0 +1,12 @@
+current_dir=`pwd`
+project_name=`echo "${current_dir##*/}"`
+rm "zzz_${project_name}.csv"
+
+cd ..
+
+zip -r "$project_name" "$project_name" -x "*/.R*" ".R*" "*.git*"
+
+base64 "${project_name}.zip" > "${project_name}.csv"
+
+extract_files_from_csv "${project_name}.csv"
+
