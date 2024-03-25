@@ -25,9 +25,11 @@
 # Installation rapide
 
 + Exécutez le code suivant sur la console :
++ /!\ Attention ce code modifie votre fichier `.Rprofile`
++ Si vous n'avez jamais modifé ce fichier tout devrait bien se passer, sinon lisez l'installation détaillée plus bas. 
 ```
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
-system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' > ~/.Rprofile")
+system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile")
 ```
 + Créez un fichier **de type Text** puis copiez/collez dedans le contenu du fichier `zzz_sndshare.csv` ci-dessus.
 + Sauvegardez ce fichier dans le répertoire `Home/sasdata1/sasuser/packages_R_externes` avec le nom suivant `sndshare.csv`
@@ -71,6 +73,8 @@ fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-
 
 ### Désigner le répertoire `local-R-lib` comme un répertoire de librairies
 + Il faut créer un fichier texte `.Rprofile` dans votre répertoire `home` avec le contenu suivant :
++ Ou bien ajouter cette ligne si vous avez déjà un fichier `.Rprofile`
++ Ou juste ajouter le répertoire `~/sasdata1/sasuser/local-R-lib/`, si vous avez déjà modifié `.libPaths`
 
 ```
 .libPaths(c("~/sasdata1/sasuser/local-R-lib/", .libPaths()) 
