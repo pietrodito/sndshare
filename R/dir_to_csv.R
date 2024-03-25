@@ -22,10 +22,10 @@ dir_to_csv <- function(dir_path,
   fs::dir_create(tmp_dir)
   withr::defer(fs::dir_delete("./tmp/"))
 
-  cat("Zipping files...\n")
+  cli::cli_alert_info("Compression des fichiers au format zip...\n")
     zip_output <- silent_zip_dir(tmp_zip_filename, dir_path,
                                  exclude_dot_R, verbose = verbose)
-  cat("Encoding zip file...\n")
+  cli::cli_alert_info("Le fichier zip est encodé en {.emph base64}...\n")
   encode_zip_file(tmp_zip_filename, csv_file_path)
 
   if(return_zip_output) zip_output else invisible()

@@ -16,7 +16,8 @@ export <- function(dir_path = ".", verbose = FALSE) {
   dir_path <- normalizePath(dir_path)
   dir_name <- basename(dir_path)
 
-  cat(paste0("Packaging directory: ", dir_path, "\n"))
+  cli::cli_h1("Export du réportoire {dir_name}")
+  cli::cli_alert_info("Prépare le répertoire : {dir_path}")
 
   pwd <- getwd()
   parent_dir <- stringr::str_remove(dir_path, dir_name)
@@ -27,8 +28,9 @@ export <- function(dir_path = ".", verbose = FALSE) {
   csv_file <- glue::glue("{dir_name}.csv")
   dir_to_csv(dir_name, csv_file, verbose = verbose)
 
-  cat("SUCCESS! ")
-  cat(paste0(csv_file, " is now ready in ", dwnld_dir, "\n"))
+  cli::cli_alert_success("Opération réussie ! ")
+  cli::cli_h3(
+    "{csv_file} est maintenant dans le répertoire suivant {dwnld_dir}")
 
   move_to_download_dir <- function(file) fs::file_move(file, dwnld_dir)
 

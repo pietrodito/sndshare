@@ -38,7 +38,7 @@ import_from_orauser <- function(TABLE_NAME,
 
   if (import_success) {
     DBI::dbRemoveTable(oracle, TABLE_NAME)
-    message("The table ORAUSER.", TABLE_NAME, " has been deleted.")
+    cli::cli_alert_success("La table ORAUSER.{TABLE_NAME}, a été supprimée.")
     if (open_project) {
       rstudioapi::openProject(project_path)
     }
@@ -51,7 +51,7 @@ oracle_connection <- function() {
 }
 
 oracle_2_csv_tmp_file <- function(TABLE_NAME, csv_tmp_path, oracle) {
-  cat("Connecting to ORACLE... \n")
+  cli::cli_alert_info("Connexion à ORACLE... \n")
   (
     oracle
     %>% dplyr::tbl(TABLE_NAME)

@@ -18,6 +18,9 @@ import_from_csv <- function(csv_path,
   if(is.null(project_name)){
     project_name <- stringr::str_remove(basename(csv_path), "\\.csv")
   }
+
+  cli::cli_h1("Import du projet {project_name}")
+
   project_path <- paste0(normalizePath(dest_path), "/", project_name)
 
   withr::defer(fs::file_delete(zip_tmp_path))
@@ -26,11 +29,11 @@ import_from_csv <- function(csv_path,
   unzip_decoded_file(zip_tmp_path, dest_path)
 
   if(fs::dir_exists(project_path)) {
-    cat("Directory is ready in ", project_path, "\n")
+    cli::cli_alert_success("Directory is ready in {project_path}")
     fs::file_delete(csv_path)
     if(open_project) rstudioapi::openProject(project_path)
   } else {
-    warning("Import has failed!")
+    cli::cli_alert_danger("La procédure d'import a échoué.")
   }
 }
 
