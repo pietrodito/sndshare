@@ -29,7 +29,7 @@ import_from_csv <- function(csv_path,
   unzip_decoded_file(zip_tmp_path, dest_path)
 
   if(fs::dir_exists(project_path)) {
-    cli::cli_alert_success("Directory is ready in {project_path}")
+    cli::cli_alert_success("Le projet est prêt dans {project_path}")
     fs::file_delete(csv_path)
     if(open_project) rstudioapi::openProject(project_path)
   } else {

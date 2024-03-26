@@ -16,8 +16,8 @@ export <- function(dir_path = ".", verbose = FALSE) {
   dir_path <- normalizePath(dir_path)
   dir_name <- basename(dir_path)
 
-  cli::cli_h1("Export du réportoire {dir_name}")
-  cli::cli_alert_info("Prépare le répertoire : {dir_path}")
+  cli::cli_h1("Export du réportoire {.emph {dir_name}}")
+  cli::cli_alert_info("Prépare le répertoire : {.emph {dir_path}}")
 
   pwd <- getwd()
   parent_dir <- stringr::str_remove(dir_path, dir_name)

@@ -13,6 +13,7 @@ Imports:
     assertthat,
     cli,
     DBI,
+    dplyr,
     fs,
     glue,
     magrittr,
