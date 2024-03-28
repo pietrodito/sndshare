@@ -11,7 +11,7 @@ download_directory_content <- function(with_heading = TRUE) {
     cli::cli_alert_warning("Le répertoire {.emph download} est vide.")
   } else {
     (
-      dwnld_dir
+      download_dir
       |> fs::dir_info()
       |> dplyr::mutate(path = basename(path))
       |> dplyr::select(c(1, 3, 5))

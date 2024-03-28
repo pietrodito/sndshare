@@ -12,14 +12,15 @@
 import_from_csv <- function(csv_path,
                             dest_path = ".",
                             project_name = NULL,
-                            open_project = TRUE ) {
+                            open_project = TRUE,
+                            verbose = TRUE) {
 
   zip_tmp_path <- glue::glue("{dest_path}/tmp_decoded_file.zip")
   if(is.null(project_name)){
     project_name <- stringr::str_remove(basename(csv_path), "\\.csv")
   }
 
-  cli::cli_h1("Import du projet {project_name}")
+  if(verbose) cli::cli_h1("Import du projet {.emph {project_name}}")
 
   project_path <- paste0(normalizePath(dest_path), "/", project_name)
 

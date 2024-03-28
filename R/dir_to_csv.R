@@ -25,7 +25,7 @@ dir_to_csv <- function(dir_path,
   cli::cli_alert_info("Compression des fichiers au format {.emph zip}...\n")
     zip_output <- silent_zip_dir(tmp_zip_filename, dir_path,
                                  exclude_dot_R, verbose = verbose)
-  cli::cli_alert_info("Le fichier zip est encodé en {.strong base64}...\n")
+  cli::cli_alert_info("Le fichier zip est encodé en {.emph base64}.\n")
   encode_zip_file(tmp_zip_filename, csv_file_path)
 
   if(return_zip_output) zip_output else invisible()
