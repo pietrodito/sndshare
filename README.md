@@ -10,13 +10,6 @@
 + Un projet/répertoire est compressé au format ZIP, puis encodé en [base64](https://fr.wikipedia.org/wiki/Base64) dans un fichier CSV à une seule colonne large de 76 caractères.
 + Ce fichier est ensuite placé dans votre répertoire download sur la plateforme
 + Si votre export concerne un package il est préférable que sa commande de BUILD l'installe dans le répertoire `~/sasdata1/sasuser/local-R-lib`
-+ /!\ Les fichiers correspondants aux modèles suivants sont exlus de l'export :
-```
-' */data_NOT_EXPORTED/* '
-' "*/.R*" ".R*" '
-' */.temp/* '
-```
-  + Voyez le package https://github.com/pietrodito/sndsmart pour comprenre ses exclusions
 
 ## Import d'un projet
 + Pour un projet normal, il suffit de copier/coller, dans un fichier format texte, le contenu du fichier CSV exporté avec la méthode ci-dessus.
@@ -38,8 +31,10 @@
 ```
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
 system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile")
+setwd("~/sasdata1/sasuser/packages_R_externes/")
+file.edit("sndshare.csv")
 ```
-+ Créez un fichier **de type Text** puis copiez/collez dedans le contenu du fichier `zzz_sndshare.csv` ci-dessus.
++ Un fichier **de type Text** est ouvert, copiez/collez dedans le contenu du fichier `zzz_sndshare.csv` ci-dessus.
 + Sauvegardez ce fichier dans le répertoire `Home/sasdata1/sasuser/packages_R_externes` avec le nom suivant `sndshare.csv`
 
 + Exécutez le code suivant sur la console :
