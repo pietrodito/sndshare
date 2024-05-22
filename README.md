@@ -34,8 +34,7 @@ system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >>
 setwd("~/sasdata1/sasuser/packages_R_externes/")
 file.edit("sndshare.csv")
 ```
-+ Un fichier **de type Text** est ouvert, copiez/collez dedans le contenu du fichier `zzz_sndshare.csv` ci-dessus.
-+ Sauvegardez ce fichier dans le répertoire `Home/sasdata1/sasuser/packages_R_externes` avec le nom suivant `sndshare.csv`
++ Un fichier **de type Text** est ouvert, copiez/collez dedans le contenu du fichier [`zzz_sndshare.csv`](https://raw.githubusercontent.com/pietrodito/sndshare/main/zzz_sndshare.csv) et sauvegardez le.
 
 + Exécutez le code suivant sur la console :
 ```
