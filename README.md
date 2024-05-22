@@ -5,7 +5,6 @@
 + Permet également de partager des packages R créés sur la plateforme.
 
 # Comment ça marche ?
-
 ## Export d'un projet
 + Un projet/répertoire est compressé au format ZIP, puis encodé en [base64](https://fr.wikipedia.org/wiki/Base64) dans un fichier CSV à une seule colonne large de 76 caractères.
 + Ce fichier est ensuite placé dans votre répertoire download sur la plateforme
@@ -24,13 +23,6 @@
 + Pour un projet volumineux, on peut importer le CSV vers la librairie ORAUSER depuis SAS pour en faire une table ORACLE.
 + Enfin on appelle la fonction d'import du package.
 
-## Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
-+ Dans le répertoire linux_utils de ce dépot
-### `extract_files_from_csv`
-+ Décode et décompresse immédiatement le fichier `.csv`
-### `update_csv_from_local`
-+ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
-+ /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
 # Installation rapide
 
 + Exécutez le code suivant sur la console :
@@ -55,6 +47,13 @@ rstudioapi::openProject("~/sasdata1/sasuser/packages_R_externes/sndshare/sndshar
 + Cliquez sur `Install Package` dans le menu `Build`
 
 
+# Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
++ Dans le répertoire linux_utils de ce dépot
+### `extract_files_from_csv`
++ Décode et décompresse immédiatement le fichier `.csv`
+### `update_csv_from_local`
++ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
++ /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
 # Installation détaillée
 
 ## Paramètrage de R et RStudio
