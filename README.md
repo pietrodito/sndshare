@@ -16,13 +16,6 @@
 + Pour un projet volumineux, on peut importer le CSV vers la librairie ORAUSER depuis SAS pour en faire une table ORACLE.
 + Enfin on appelle la fonction d'import du package.
 
-## Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
-+ Dans le répertoire linux_utils de ce dépot
-### `extract_files_from_csv`
-+ Décode et décompresse immédiatement le fichier `.csv`
-### `update_csv_from_local`
-+ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
-+ /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
 # Installation rapide
 
 + Exécutez le code suivant sur la console :
@@ -31,9 +24,10 @@
 ```
 fs::dir_create(paste0("~/sasdata1/sasuser/", c("packages_R_externes/", "local-R-lib/")))
 system("echo '.libPaths(c(\"~/sasdata1/sasuser/local-R-lib/\", .libPaths()))' >> ~/.Rprofile")
+file.edit("~/sasdata1/sasuser/packages_R_externes/sndshare.csv")
 ```
-+ Créez un fichier **de type Text** puis copiez/collez dedans le contenu du fichier `zzz_sndshare.csv` ci-dessus.
-+ Sauvegardez ce fichier dans le répertoire `Home/sasdata1/sasuser/packages_R_externes` avec le nom suivant `sndshare.csv`
++ Copiez/collez dedans le contenu du fichier [`zzz_sndshare.csv`](https://raw.githubusercontent.com/pietrodito/sndshare/main/zzz_sndshare.csv).
++ Puis sauvegardez.
 
 + Exécutez le code suivant sur la console :
 ```
@@ -45,6 +39,13 @@ rstudioapi::openProject("~/sasdata1/sasuser/packages_R_externes/sndshare/sndshar
 
 + Cliquez sur `Install Package` dans le menu `Build`
 
+## Deux outils linux bash pour faciliter la manipulation des fichiers encodés en base64
++ Dans le répertoire linux_utils de ce dépot
+### `extract_files_from_csv`
++ Décode et décompresse immédiatement le fichier `.csv`
+### `update_csv_from_local`
++ Si vous modifiez votre projet sur votre machine locale, cette commande met à jour le fichier encodé `.csv` pour tenir compte de ces modifications.
++ /!\ Attention ce second batch est dépendant du premier qui doit être dans le `$PATH`
 
 # Installation détaillée
 
